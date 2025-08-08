@@ -9,9 +9,29 @@ load_dotenv()
 class BaseRequestFactory(ABC):
     def __init__(self, path, headers=None, data=None):
         self.base_url = os.getenv("BASE_URL")
-        self.path = path
-        self.headers = headers or {}
-        self.data = data or {}
+        self.validate_base_url()
+
+        self.path = self.validate_path(path)
+        self.headers = self.validate_dict(headers, "headers")
+        self.data = self.validate_dict(data, "data")
+    
+    def validate_base_url(self):
+        if not self.base_url or not isinstance(self.base_url, str):
+            raise ValueError("BASE_URL is missing or invalid in the .env file.")
+
+    def validate_path(self, path):
+        if not isinstance(path, str):
+            raise ValueError("Path must be a string.")
+        if not path.startswith("/"):
+            raise ValueError("Path must start with '/'.")
+        return path
+
+    def validate_dict(self, value, name):
+        if value is None:
+            return {}
+        if not isinstance(value, dict):
+            raise ValueError(f"{name} must be a dictionary.")
+        return value
 
     @abstractmethod
     def send(self):
