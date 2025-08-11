@@ -57,8 +57,14 @@ class DeleteRequestFactory(BaseRequestFactory):
         return response
 
 if __name__ == "__main__":
-    get_factory = PutRequestFactory(path="/put", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
+    get_factory = GetRequestFactory(path="/get", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
     get_factory.send()
 
-    post_factory = DeleteRequestFactory(path="/delete", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
+    post_factory = PostRequestFactory(path="/post", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
     post_factory.send()
+
+    put_factory = PutRequestFactory(path="/put", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
+    put_factory.send()
+
+    delete_factory = DeleteRequestFactory(path="/delete", headers={"Case": "Octoxlabs"}, data={"name": "octoxlabs"})
+    delete_factory.send()
